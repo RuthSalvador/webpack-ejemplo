@@ -185,12 +185,12 @@ Ejemplo más elaborado:
 ```js
 var coders = [
   {
-  	name: 'miriam',
-  	promo: '2017-1'
+    name: 'miriam',
+    promo: '2017-1'
   },
   {
-  	name: 'lily',
-  	promo: '2017-1'
+    name: 'lily',
+    promo: '2017-1'
   }
 ];
 
@@ -211,49 +211,47 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
-	entry: [
-		'./index.js' // archivo de entrada
+  entry: [
+    './index.js' // archivo de entrada
+  ],
+  output: { // archivos de salida
+    path: __dirname, // ruta donde va a estar el archivo, si deseo que sea aqui mismo pongo _dirname
+    filename: 'build.js', // archivo de salida
+    publicPath:'/'
+  },
+  module: {
+    rules: [
+      {
+	test: /\.js$/, // todos los `js`
+	loaders: [
+	  'babel-loader', // los procesamos con el loader de `babel`
 	],
-	output: { // archivos de salida
-		path: __dirname, // ruta donde va a estar el archivo, si deseo que sea aqui mismo pongo _dirname
-		filename: 'build.js', // archivo de salida
-		publicPath:'/'
-	},
-	module: {
-		rules: [
-			{
-				test: /\.js$/, // todos los `js`
-				loaders: [
-					'babel-loader', // los procesamos con el loader de `babel`
-				],
-				exclude: /node_modules/, // ignoramos archivos dentro de node_modules
-			},
-
-			// luego
-			{
-				test: /\.css$/, // todos los archivos `csss`
-				use: [
-					{ loader: "style-loader" }, // primero creamos un tag `style`
-					{ loader: "css-loader" } // y le injetamos el `css`
-				]
-			}
-		]
-	},
-	plugins: [
-		// llamando los plugins
-		new OpenBrowserPlugin({ // abre el navegador
-			url: 'http://localhost:8080'
-		}),
-		new HtmlWebpackPlugin({
-			template: './index.html',
-			filename: 'index.html', // nombre del archivo
-			inject: 'body'
-		})
-	],
-	devServer: { // configuracion del servidor local
-		contentBase: resolve(__dirname, 'build'),
-		publicPath: '/'
-	}
+	exclude: /node_modules/, // ignoramos archivos dentro de node_modules
+      }, // luego
+      {
+	test: /\.css$/, // todos los archivos `csss`
+	use: [
+	  { loader: "style-loader" }, // primero creamos un tag `style`
+	  { loader: "css-loader" } // y le injetamos el `css`
+	]
+      }
+    ]
+  },
+  plugins: [
+    // llamando los plugins
+    new OpenBrowserPlugin({ // abre el navegador
+      url: 'http://localhost:8080'
+    }),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      filename: 'index.html', // nombre del archivo
+      inject: 'body'
+    })
+  ],
+  devServer: { // configuracion del servidor local
+    contentBase: resolve(__dirname, 'build'),
+    publicPath: '/'
+  }
 }
 
 module.export = config;
